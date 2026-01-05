@@ -1,0 +1,11 @@
+0 verbose cli /usr/local/bin/node /usr/local/bin/npm
+1 info using npm@11.6.2
+2 info using node@v24.12.0
+3 silly config load:file:/usr/local/lib/node_modules/npm/npmrc
+4 silly config load:file:/home/app/.npmrc
+5 silly config load:file:/usr/local/etc/npmrc
+6 verbose title npm run dev
+7 verbose argv "run" "dev"
+8 verbose logfile logs-max:10 dir:/home/app/.npm/_logs/2026-01-05T10_31_44_561Z-
+9 verbose logfile /home/app/.npm/_logs/2026-01-05T10_31_44_561Z-debug-0.log
+10 silly logfile done cleaning log files
