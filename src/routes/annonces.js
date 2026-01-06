@@ -1,6 +1,6 @@
 const express = require('express');
 const { validateAnnoces } = require('../middlewares/annonces');
-const { getAllAnnonces, getAnnonce } = require('../services/annonces');
+const { getAllAnnonces, getAnnonce, editAnnonce, deleteAnnonce } = require('../services/annonces');
 const router = express.Router();
 
 router.get('/', validateAnnoces, getAllAnnonces()
@@ -13,5 +13,9 @@ router.post('/', validateAnnoces, (req,res) => {
         message: "success"
     });
 });
+
+router.put('/:id', validateAnnoces, editAnnonce());
+
+router.delete('/:id', deleteAnnonce());
 
 module.exports = router;
