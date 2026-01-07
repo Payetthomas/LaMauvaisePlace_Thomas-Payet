@@ -1,8 +1,16 @@
 const {Model, DataTypes} = require('sequelize');
-const { sequelize } = require('.');
 
 const Annonce = (sequelize, DataTypes) => {
-    class Annonce extends Model {}
+
+    class Annonce extends Model {
+        // On indique ici les jointures entre les tables
+        static associate(model) {
+            this.belongsTo(model.Users, {
+                ForeignKey: 'user_id',
+                as: 'User'
+            });
+        }
+    }
 
     Annonce.init(
         {
@@ -10,12 +18,19 @@ const Annonce = (sequelize, DataTypes) => {
             description: DataTypes.TEXT,
             price: DataTypes.FLOAT,
             filepath: DataTypes.TEXT,
+            status: {
+                type: DataTypes.ENUM,
+                values: ['draft', 'published', 'suspended'],
+                defaultValue: 'draft'
+            }
         }, 
         {
             sequelize,
             modelName: "Annonce"
         }
     );
+
+    return Annonce;
 }; 
 
 module.exports = Annonce;
