@@ -1,3 +1,8 @@
+const { dbInstance, User } = require("../models");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
 module.exports = {
     login,
     register
@@ -23,8 +28,17 @@ function login(req, res) {
 
 };
 
-function register(req, res) {
-    const {email, password, role} = req.body;
+async function register(req, res) {
+    const transaction = await dbInstance.transaction();
+
+    try {
+        const { firstname, lastname, profil_picture, phone_number, address, zip_code, city, username, password } = req.body;
+
+        const passwordHached = await bcrypt.hash(password, )
+        
+    } catch (error) {
+        
+    }
 
 
 }
