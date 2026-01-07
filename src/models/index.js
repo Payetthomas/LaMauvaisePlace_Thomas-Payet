@@ -9,12 +9,12 @@ const {
     MARIADB_USERNAME: username,
     MARIADB_PASSWORD: password,
     MARIADB_PORT: port,
-    MARIADB_DATABASE: dbMaria
+    MARIADB_DATABASE: mariaDb
 } = process.env;
 
 const db = {};
 
-const dbInstance = new Sequelize(`mariadb://${username}:${password}@${host}:${port}/${dbMaria}`);
+const dbInstance = new Sequelize(`mariadb://${username}:${password}@${host}:${port}/${mariaDb}`);
 
 fs
   .readdirSync(__dirname)
@@ -36,5 +36,8 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+db.Sequelize = Sequelize;
+db.dbInstance = dbInstance;
 
 module.exports = db;
