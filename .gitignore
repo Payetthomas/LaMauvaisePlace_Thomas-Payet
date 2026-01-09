@@ -1,5 +1,5 @@
 .env
 node_modules/
 .npm/
-db-data
+db-data/
 package-lock.json
