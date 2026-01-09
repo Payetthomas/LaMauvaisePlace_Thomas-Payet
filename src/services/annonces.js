@@ -3,6 +3,7 @@ const { Annonce, dbInstance } = require('../models');
 module.exports = {
     getAllAnnonces,
     getAnnonce,
+    createAnnonce,
     editAnnonce,
     deleteAnnonce,
     searchAnnonce
@@ -54,14 +55,14 @@ async function createAnnonce(req, res) {
             title, description, price, filepath, status 
         }, { transaction });
 
-        transaction.commit();
+        await transaction.commit();
 
         return res.status(201).json({
             status: "Annonce created success",
             annonce
         })
     } catch (error) {
-        transaction.rollback();
+        await transaction.rollback();
 
         return res.status(400).json({
             status: "Annonce not create"
@@ -87,7 +88,7 @@ async function editAnnonce(req, res) {
             transaction
         });
 
-        transaction.commit();
+        await transaction.commit();
 
         return res.status(200).json({
             status: "Annonce updated success",
@@ -95,7 +96,7 @@ async function editAnnonce(req, res) {
         });
 
     } catch (error) {
-        transaction.rollback();
+        await transaction.rollback();
 
         return res.status(400).json({
             status: "Annonce not updated"
@@ -114,14 +115,14 @@ async function deleteAnnonce(req,res) {
             transaction
         });
 
-        transaction.commit();
+         await transaction.commit();
 
         return res.status(200).json({
             status: "Annonce delete success"
         });
 
     } catch (error) {
-        transaction.rollback();
+        await transaction.rollback();
 
         return res.status(400).json({
             status: "Annonce delete failed",
@@ -130,7 +131,7 @@ async function deleteAnnonce(req,res) {
     }
 }; 
 
-const searchAnnonce = async (req, res) => {
+ async function searchAnnonce(req, res) {
     const search_key = req.query.search;
 
     try {
