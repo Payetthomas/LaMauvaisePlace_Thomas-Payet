@@ -4,9 +4,9 @@ const Annonce = (sequelize, DataTypes) => {
 
     class Annonce extends Model {
         // On indique ici les jointures entre les tables
-        static associate(model) {
-            this.belongsTo(model.Users, {
-                ForeignKey: 'user_id',
+        static associate(models) {
+            this.belongsTo(models.User, {
+                foreignKey: 'user_id',
                 as: 'User'
             });
         }

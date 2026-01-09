@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "root",
-    "database": "app_annonces",
+    "database": "monannonce",
     "host": "app-annonces-db",
     "dialect": "mariadb"
   },

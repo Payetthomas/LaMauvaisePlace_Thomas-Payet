@@ -14,6 +14,8 @@ const validateAnnoces =  async (req, res, next) => {
     console.log("annonce validated");
     console.log("validation :", validation.isEmpty())
     next();
-}; 
+};
 
-module.exports = { validateAnnoces };
+module.exports = { 
+    validateAnnoces 
+};
