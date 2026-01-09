@@ -1,3 +1,5 @@
 .env
 node_modules/
 .npm/
+db-data
+package-lock.json
