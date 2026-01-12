@@ -1,4 +1,4 @@
-const { Annonce, dbInstance } = require('../models');
+const { Annonce, dbInstance, Sequelize } = require('../models');
 
 module.exports = {
     getAllAnnonces,
@@ -6,21 +6,45 @@ module.exports = {
     createAnnonce,
     editAnnonce,
     deleteAnnonce,
-    searchAnnonce
+    searchAnnonce,
+    getAnnoncesAdmin,
+    getAnnoncesBySeller,
+    updateStatusAnnonce
 }
 
 async function getAllAnnonces(req, res) {
 
     try {
-        const annonces = await Annonce.findAll();
+        const annonces = await Annonce.findAll({
+            where : { 
+                status: 'published'
+             },
+             order: [['createdAt', 'DESC']]
+        });
         res.status(200).json({
-            message: "Mes annonces", 
+            message: "Published annonces", 
             annonces
         });
     } catch (error) {
-        
+        res.status(500).json({ message: "Error server", error: error.message });
     }
 };
+
+async function getAnnoncesAdmin(req, res) {
+
+    try {
+        const annonces = await Annonce.findAll({
+             order: [['createdAt', 'DESC']]
+        });
+        res.status(200).json({
+            message: "All annonces", 
+            annonces
+        });
+    } catch (error) {
+        res.status(500).json({ message: "Error server", error: error.message });
+    }
+};
+
 
 async function getAnnonce(req, res) {
 
@@ -72,10 +96,11 @@ async function createAnnonce(req, res) {
 };
 
 async function editAnnonce(req, res) {
+    const id = req.params.id;
     const transaction = await dbInstance.transaction();
 
     try {
-        const { title, description, price, filepath, status } = req.body;
+        const { title, description, price, filepath, status } = req.annonce;
 
         const annonce = await Annonce.update({
             title,
@@ -104,18 +129,46 @@ async function editAnnonce(req, res) {
     }
 };
 
-async function deleteAnnonce(req,res) {
-    
+async function updateStatusAnnonce(req, res) {
     const transaction = await dbInstance.transaction();
 
     try {
-        const { id } = req.params;
-        const annonce = await Annonce.destroy({
-            where: { id },
-            transaction
+        const id = req.params.id;
+        const { status, status_comment } = req.body;
+
+        const annonce = await Annonce.findByPk(id);
+
+        if (!status) {
+            return res.status(400).json({ message: "Not status" });
+        };
+
+        await annonce.update({ status, status_comment }, { transaction });
+
+        await transaction.commit();
+
+        return res.status(200).json({
+            message: `Annonce status: ${status}`,
+            annonce
         });
 
-         await transaction.commit();
+    } catch (error) {
+        if (transaction) await transaction.rollback();
+        return res.status(400).json({
+            message: "Error update status",
+            error: error.message
+        });
+    }
+};
+
+async function deleteAnnonce(req,res) {
+    
+    const annonce = req.annonce;
+    const transaction = await dbInstance.transaction();
+
+    try {
+        await annonce.destroy({ transaction });
+
+        await transaction.commit();
 
         return res.status(200).json({
             status: "Annonce delete success"
@@ -155,4 +208,30 @@ async function deleteAnnonce(req,res) {
         });
     }     
 };
+
+async function getAnnoncesBySeller(req, res) {
+
+    const id = req.params.id
+
+    try {
+        const annonces = await Annonce.findAll({
+            where: {
+                user_id: id
+            },
+            order: [['createdAt', 'DESC']]
+        });
+
+        return res.status(200).json({
+            message: `Annonces de l'annonceur ${id}`,
+            count: annonces.length,
+            annonces
+        });
+
+    } catch (error) {
+        return res.status(500).json({ 
+            message: "Erreur lors de la récupération des annonces", 
+            error: error.message 
+        });
+    }
+}
 

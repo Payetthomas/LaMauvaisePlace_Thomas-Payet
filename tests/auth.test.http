@@ -1,0 +1,39 @@
+### Creer un nouvel utilisateur
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "firstname": "Test1",
+    "lastname": "Test1", 
+    "role": "admin",
+    "username": "Test1",
+    "password": "azerty"
+}
+
+###
+
+### Login d'un User
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "Test1",
+    "password": "azerty"
+}
+
+###
+
+
+### Refaire un copier/coller d'un token 
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InNlbGxlciIsImlhdCI6MTc2ODE1OTc4OCwiZXhwIjoxNzY4MTYzMzg4fQ.4EcLadLFx-HPo6f3KwInVe3WnAjgJzoNneIQVWR2G_M
+
+###
+
+### Voir son profil User
+GET http://localhost:3000/auth
+Authorization: Bearer {{token}}
+
+###
+### Récupérer MES annonces
+GET http://localhost:3000/annonces/mes-annonces
+Authorization: Bearer {{token}}

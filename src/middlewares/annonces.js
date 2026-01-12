@@ -2,9 +2,11 @@ const { checkSchema } = require('express-validator');
 
 const validateAnnoces =  async (req, res, next) => {
 
-    const validation = await checkSchema({
+    const [ validation ] = await checkSchema({
         title: { notEmpty: true }
     }).run(req);
+
+
 
     if(!validation.isEmpty()){
         res.status(400).json({

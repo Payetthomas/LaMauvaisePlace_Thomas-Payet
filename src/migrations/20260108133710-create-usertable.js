@@ -59,7 +59,16 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DataTypes.DATE,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-        }
+        },
+        username: { 
+          type: Sequelize.DataTypes.STRING, 
+          allowNull: false, 
+          unique: true 
+        },
+        password: { 
+          type: Sequelize.DataTypes.STRING, 
+          allowNull: false 
+        },
       }, { transaction : t });
 
       await queryInterface.addColumn('Annonces', 'user_id', {

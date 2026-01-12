@@ -1,0 +1,44 @@
+### Configuration des variables
+@baseUrl = http://localhost:3000
+@annonceId = 2
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Nywicm9sZSI6InNlbGxlciIsImlhdCI6MTc2ODE1MDM4MSwiZXhwIjoxNzY4MTUzOTgxfQ.IaTs4Offm0mLy2hyI77UNJ4vlRJcoRK7tIm7_EUlORs
+
+### 1. Créer une annonce (CREATE)
+POST {{baseUrl}}/annonces
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+    "title": "Vélo",
+    "description": "Très bon état, peu servi",
+    "price": 450
+}
+
+###
+
+### 2. Récupérer toutes les annonces 
+GET {{baseUrl}}/annonces
+Accept: application/json
+
+###
+
+### 3. Récupérer une annonce spécifique par son ID
+GET {{baseUrl}}/annonces/{{annonceId}}
+
+###
+
+### 4. Modifier une annonce (UPDATE)
+PUT {{baseUrl}}/annonces/{{annonceId}}
+Content-Type: application/json
+
+{
+    "title": "Vélo de course carbone (VENDU)",
+    "price": 400
+}
+
+###
+
+### 5. Supprimer une annonce (DELETE)
+DELETE {{baseUrl}}/annonces/4
+Authorization: Bearer {{token}}

@@ -22,6 +22,10 @@ const Annonce = (sequelize, DataTypes) => {
                 type: DataTypes.ENUM,
                 values: ['draft', 'published', 'suspended'],
                 defaultValue: 'draft'
+            },
+            status_comment: {
+                type: DataTypes.TEXT,
+                allowNull: true
             }
         }, 
         {
